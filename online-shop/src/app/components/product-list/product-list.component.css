@@ -1,0 +1,16 @@
+.products-table {
+  border: 2px solid black;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid black;
+}
+
+.product-details {
+  text-align: center;
+  color: blue;
+  font-weight: 1000;
+}

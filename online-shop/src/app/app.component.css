@@ -1,0 +1,24 @@
+h1 {
+  color: rgb(0, 0, 0);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 250%;
+}
+h2,
+h3 {
+  color: rgb(0, 0, 0);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 150%;
+}
+body {
+  margin: 2em;
+}
+body,
+input[type="text"],
+button {
+  color: rgb(0, 0, 0);
+  font-family: "Times New Roman", Times, serif;
+}
+/* everywhere else */
+* {
+  font-family: "Times New Roman", Times, serif;
+}
