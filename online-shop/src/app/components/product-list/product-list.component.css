@@ -14,3 +14,7 @@ td {
   color: blue;
   font-weight: 1000;
 }
+
+.product-list-container {
+  font-size: larger;
+}

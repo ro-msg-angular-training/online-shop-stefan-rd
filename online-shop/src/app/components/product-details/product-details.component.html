@@ -1,8 +1,15 @@
-<h2>Product: {{ product.name | uppercase }}</h2>
-<div>
-  <label>Name: </label>
-  <input [(ngModel)]="product.name" placeholder="Product name" />
+<div class="product-details-container">
+  <h2>Product: {{ product.name | uppercase }}</h2>
+  <div id="buttons">
+    <button id="edit-button">EDIT</button>
+    <button id="delete-button">DELETE</button>
+  </div>
+  <div class="field-name">Name</div>
+  <div class="field-value">{{ product.name }}</div>
+  <div class="field-name">Category</div>
+  <div class="field-value">{{ product.category }}</div>
+  <div class="field-name">Price</div>
+  <div class="field-value">{{ product.price }}</div>
+  <div class="field-name">Description</div>
+  <div class="field-value">{{ product.description }}</div>
 </div>
-<div><span>Category: </span>{{ product.category }}</div>
-<div><span>Price: </span>{{ product.price }}</div>
-<div><span>Description: </span>{{ product.description }}</div>
