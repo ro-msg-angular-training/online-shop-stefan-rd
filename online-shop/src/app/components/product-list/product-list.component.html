@@ -1,17 +1,25 @@
-<div class="product-list-container">
+<div class="container">
   <h2>Products</h2>
-  <table class="products-table">
-    <th>Name</th>
-    <th>Category</th>
-    <th>Price</th>
-    <th></th>
+  <table class="table table-bordered">
+    <thead class="thead-light">
+      <th>Name</th>
+      <th>Category</th>
+      <th>Price</th>
+      <th></th>
+    </thead>
     <tbody>
       <tr *ngFor="let product of products">
         <td>{{ product.name }}</td>
         <td>{{ product.category }}</td>
         <td>{{ product.price }} RON</td>
-        <td class="product-details"><a>Edit</a></td>
+        <td class="product-details">
+          <button class="btn btn-primary" (click)="onSelect(product)">
+            Details
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
+
+  <product-details [product]="selectedProduct"></product-details>
 </div>

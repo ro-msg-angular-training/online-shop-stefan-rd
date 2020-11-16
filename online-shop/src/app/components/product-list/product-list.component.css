@@ -4,11 +4,6 @@
   width: 100%;
 }
 
-th,
-td {
-  border: 1px solid black;
-}
-
 .product-details {
   text-align: center;
   color: blue;
@@ -17,4 +12,21 @@ td {
 
 .product-list-container {
   font-size: larger;
+}
+
+#details-button {
+  width: fit-content;
+  height: 50%;
+  margin: auto;
+  background-color: #0077ff;
+  font-weight: 800;
+  color: white;
+  border-color: #0077ff;
+  outline: none;
+  border-style: solid;
+  display: block;
+}
+
+button:active {
+  transform: scale(0.95);
 }

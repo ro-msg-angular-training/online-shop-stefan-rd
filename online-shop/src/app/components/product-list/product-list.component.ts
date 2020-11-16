@@ -14,5 +14,10 @@ export class ProductListComponent implements OnInit {
     this.products = this.productService.getProducts();
   }
 
+  selectedProduct: Product;
+  onSelect(product: Product): void {
+    this.selectedProduct = product;
+  }
+
   ngOnInit(): void {}
 }
