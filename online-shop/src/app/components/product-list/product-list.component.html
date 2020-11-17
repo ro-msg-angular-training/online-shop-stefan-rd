@@ -1,25 +1,24 @@
-<div class="container">
+<div class="container mt-4">
   <h2>Products</h2>
-  <table class="table table-bordered">
+  <table class="table table-bordered text-center">
     <thead class="thead-light">
       <th>Name</th>
       <th>Category</th>
       <th>Price</th>
-      <th></th>
     </thead>
     <tbody>
       <tr *ngFor="let product of products">
-        <td>{{ product.name }}</td>
+        <td>
+          <a
+            routerLink="/products/{{ product.id }}"
+            style="font-weight: 700; color: black"
+          >
+            {{ product.name }}
+          </a>
+        </td>
         <td>{{ product.category }}</td>
         <td>{{ product.price }} RON</td>
-        <td class="product-details">
-          <button class="btn btn-primary" (click)="onSelect(product)">
-            Details
-          </button>
-        </td>
       </tr>
     </tbody>
   </table>
-
-  <product-details [product]="selectedProduct"></product-details>
 </div>

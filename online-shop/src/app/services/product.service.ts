@@ -1,5 +1,11 @@
 import { Product } from '../models/product.model';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { MessageService } from './message.service';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class ProductService {
   private products: Array<Product> = [
     {
@@ -9,6 +15,7 @@ export class ProductService {
       price: 1,
       image: 'Image',
       description: 'Description',
+      currentQuantity: 10,
     },
     {
       id: 2,
@@ -17,6 +24,7 @@ export class ProductService {
       price: 10,
       image: 'Image',
       description: 'Description',
+      currentQuantity: 10,
     },
     {
       id: 3,
@@ -25,6 +33,7 @@ export class ProductService {
       price: 5,
       image: 'Image',
       description: 'Description',
+      currentQuantity: 10,
     },
     {
       id: 4,
@@ -33,6 +42,7 @@ export class ProductService {
       price: 50,
       image: 'Image',
       description: 'Description',
+      currentQuantity: 10,
     },
     {
       id: 5,
@@ -41,10 +51,14 @@ export class ProductService {
       price: 100,
       image: 'Image',
       description: 'Description',
+      currentQuantity: 10,
     },
   ];
 
-  public getProducts(): Array<Product> {
-    return this.products;
+  constructor(private messageService: MessageService) {}
+
+  public getProducts(): Observable<Array<Product>> {
+    this.messageService.add('ProductService: Fetched the products.');
+    return of(this.products);
   }
 }
