@@ -1,41 +1,47 @@
 <div class="container mt-4">
   <h2>Your Cart</h2>
-  <table class="table table-bordered text-center">
-    <thead class="thead-light">
-      <th>Name</th>
-      <th>Category</th>
-      <th>Price</th>
-      <th>Quantity</th>
-      <th></th>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="let productInCart of productsInCart"
-        routerLink="/products/{{ productInCart.product.id }}"
-      >
-        <td>{{ productInCart.product.name }}</td>
-        <td>{{ productInCart.product.category }}</td>
-        <td>{{ productInCart.product.price }} RON</td>
-        <td>
-          <select [(ngModel)]="productInCart.quantity">
-            <option
-              *ngFor="
-                let item of [].constructor(
-                  productInCart.product.currentQuantity
-                );
-                let i = index
-              "
+  <div class="table-responsive-sm">
+    <table class="table table-bordered text-center">
+      <thead class="thead-light">
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let productInCart of productsInCart">
+          <td>
+            <a
+              routerLink="/products/{{ productInCart.product.id }}"
+              style="font-weight: 700; color: black"
             >
-              {{ i + 1 }}
-            </option>
-          </select>
-        </td>
-        <td class="remove-product">
-          <button class="btn btn-danger" (click)="onDelete(productInCart)">
-            Remove
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+              {{ productInCart.product.name }}
+            </a>
+          </td>
+          <td>{{ productInCart.product.category }}</td>
+          <td>{{ productInCart.product.price }} RON</td>
+          <td>
+            <select [(ngModel)]="productInCart.quantity">
+              <option
+                *ngFor="
+                  let item of [].constructor(
+                    productInCart.product.currentQuantity
+                  );
+                  let i = index
+                "
+              >
+                {{ i + 1 }}
+              </option>
+            </select>
+          </td>
+          <td class="remove-product">
+            <button class="btn btn-danger" (click)="onDelete(productInCart)">
+              Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

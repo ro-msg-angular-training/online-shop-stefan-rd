@@ -1,24 +1,26 @@
 <div class="container mt-4">
   <h2>Products</h2>
-  <table class="table table-bordered text-center">
-    <thead class="thead-light">
-      <th>Name</th>
-      <th>Category</th>
-      <th>Price</th>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of products">
-        <td>
-          <a
-            routerLink="/products/{{ product.id }}"
-            style="font-weight: 700; color: black"
-          >
-            {{ product.name }}
-          </a>
-        </td>
-        <td>{{ product.category }}</td>
-        <td>{{ product.price }} RON</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive-sm">
+    <table class="table table-bordered text-center">
+      <thead class="thead-light">
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>
+            <a
+              routerLink="/products/{{ product.id }}"
+              style="font-weight: 700; color: black"
+            >
+              {{ product.name }}
+            </a>
+          </td>
+          <td>{{ product.category }}</td>
+          <td>{{ product.price }} RON</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

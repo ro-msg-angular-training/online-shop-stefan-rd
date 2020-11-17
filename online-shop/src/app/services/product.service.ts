@@ -61,4 +61,12 @@ export class ProductService {
     this.messageService.add('ProductService: Fetched the products.');
     return of(this.products);
   }
+
+  getProduct(id: number): Observable<Product> {
+    const product: Product = this.products.find((product) => product.id === id);
+    if (product) {
+      return of(product);
+    }
+    throw new Error('There is no product with the given id: ' + id);
+  }
 }
