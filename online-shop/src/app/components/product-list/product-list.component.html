@@ -11,13 +11,13 @@
         <tr *ngFor="let product of products">
           <td>
             <a
-              routerLink="/products/{{ product.id }}"
+              routerLink="/products/{{ product._id }}"
               style="font-weight: 700; color: black"
             >
               {{ product.name }}
             </a>
           </td>
-          <td>{{ product.category }}</td>
+          <td>{{ product.category.name }}</td>
           <td>{{ product.price }} RON</td>
         </tr>
       </tbody>

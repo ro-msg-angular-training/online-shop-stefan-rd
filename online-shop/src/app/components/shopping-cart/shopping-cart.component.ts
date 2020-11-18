@@ -1,37 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductWithQuantity } from 'src/app/models/product-with-quantity';
-import { MessageService } from 'src/app/services/message.service';
 import { OrderService } from 'src/app/services/order.service';
 
 @Component({
-  selector: 'app-shopping-cart',
+  selector: 'shopping-cart',
   templateUrl: './shopping-cart.component.html',
   styleUrls: ['./shopping-cart.component.css'],
 })
 export class ShoppingCartComponent implements OnInit {
   productsInCart: Array<ProductWithQuantity>;
+  maxQuantityPerOrder: number;
 
-  constructor(
-    public messageService: MessageService,
-    private orderService: OrderService
-  ) {}
+  constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
     this.getProductsInCart();
+    console.log(this.productsInCart);
+    this.getMaxQuantityPerOrder();
+  }
+  getMaxQuantityPerOrder() {
+    this.maxQuantityPerOrder = this.orderService.getMaxQuantityPerOrder();
   }
 
-  onDelete(productWithQuantity: ProductWithQuantity): void {
+  onRemove(productWithQuantity: ProductWithQuantity): void {
     console.log(productWithQuantity);
-    this.messageService.add(
-      `ShoppingCartComponent: Removed product with id=${productWithQuantity.product.id} and quantity ${productWithQuantity.quantity}`
-    );
-    const index: number = this.productsInCart.findIndex(
-      (productInCart) =>
-        productInCart.product.id == productWithQuantity.product.id
-    );
-    if (index > -1) {
-      this.productsInCart.splice(index, 1);
-    }
+    this.orderService.removeProductFromCart(productWithQuantity.product._id);
   }
 
   getProductsInCart(): void {

@@ -11,7 +11,7 @@
     </div>
     <div class="row mt-3">
       <div class="col-12 col-sm-2 field-name">Category</div>
-      <div class="col-12 col-sm-10">{{ product.category }}</div>
+      <div class="col-12 col-sm-10">{{ product.category.name }}</div>
     </div>
     <div class="row mt-3">
       <div class="col-12 col-sm-2 field-name">Price</div>
@@ -24,14 +24,25 @@
       </div>
     </div>
     <div class="row mt-3">
-      <div class="col-md-3 offset-md-10 col-sm-5 offset-7">
-        <button class="btn btn-primary">Add to cart</button>
+      <div class="col-md-3 offset-md-10 col-sm-5 offset-6">
+        <button
+          class="btn btn-primary"
+          (click)="addToCart()"
+          [disabled]="checkProductQuantityInCart()"
+        >
+          {{
+            checkProductQuantityInCart() == false
+              ? "Add to cart"
+              : "Maximum quantity in cart"
+          }}
+        </button>
       </div>
     </div>
     <div class="row mt-3">
-      <div class="col-md-3 offset-md-10 col-sm-5 offset-7">
+      <div class="col-md-3 offset-md-10 col-sm-5 offset-6">
         <button class="btn btn-primary" (click)="goBack()">Back</button>
       </div>
     </div>
   </div>
 </div>
+<errors></errors>

@@ -1,9 +1,13 @@
+import { Category } from './category.model';
+import { Supplier } from './supplier.model';
+
 export interface Product {
-  id: number;
+  _id: number;
   name: string;
-  category: string;
+  category: Category;
   price: number;
   description: string;
-  image: string;
-  currentQuantity: number;
+  imageUrl: string;
+  supplier: Supplier;
+  weight: number;
 }

@@ -3,6 +3,7 @@ import { Product } from 'src/app/models/product.model';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { ProductService } from 'src/app/services/product.service';
+import { OrderService } from 'src/app/services/order.service';
 
 @Component({
   selector: 'product-details',
@@ -15,7 +16,8 @@ export class ProductDetailsComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
@@ -24,12 +26,23 @@ export class ProductDetailsComponent implements OnInit {
 
   getProduct(): void {
     const id: number = +this.route.snapshot.paramMap.get('id');
-    this.productService
-      .getProduct(id)
-      .subscribe((product) => (this.product = product));
+    this.productService.getProduct(id).subscribe((product) => {
+      this.product = product;
+    });
   }
 
   goBack(): void {
     this.location.back();
+  }
+
+  addToCart(): void {
+    this.orderService.addProductToCart(this.product);
+  }
+
+  checkProductQuantityInCart(): boolean {
+    return (
+      this.orderService.getProductQuantityInCart(this.product._id) >=
+      this.orderService.getMaxQuantityPerOrder()
+    );
   }
 }

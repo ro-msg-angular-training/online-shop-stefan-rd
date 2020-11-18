@@ -1,19 +1,35 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductService } from './services/product.service';
-import { MessagesComponent } from './components/messages/messages.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 @NgModule({
-  declarations: [AppComponent, ProductDetailsComponent, ProductListComponent, MessagesComponent, ShoppingCartComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
-  providers: [ProductService],
+  declarations: [
+    AppComponent,
+    ProductDetailsComponent,
+    ProductListComponent,
+    ErrorPageComponent,
+    ShoppingCartComponent,
+    ErrorPageComponent,
+  ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  providers: [
+    ProductService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
