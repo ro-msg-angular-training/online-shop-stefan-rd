@@ -45,4 +45,13 @@ export class ProductDetailsComponent implements OnInit {
       this.orderService.getMaxQuantityPerOrder()
     );
   }
+
+  deleteProduct(): void {
+    this.productService
+      .deleteProduct(this.product._id)
+      .subscribe((deletedProduct) => {
+        console.log(deletedProduct);
+        this.location.back();
+      });
+  }
 }

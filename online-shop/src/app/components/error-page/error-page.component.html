@@ -1,7 +1,7 @@
 <div *ngIf="errorService.messages.length">
   <div class="container" *ngFor="let message of errorService.messages">
     <div class="row justify-content-between mt-4">
-      <div class="col-12">
+      <div class="col-12 angular-with-newlines">
         {{ message }}
       </div>
     </div>

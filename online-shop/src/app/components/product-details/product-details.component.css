@@ -7,19 +7,14 @@
   word-break: break-all;
 }
 
-.product-details-container {
-  display: grid;
-  column-gap: 2%;
-  row-gap: 10%;
-  grid-template-columns: auto auto auto auto;
-  font-size: larger;
-}
-
-h2 {
-  grid-column-start: 1;
-  grid-column-end: 3;
-}
-
 button:active {
   transform: scale(0.95);
+}
+
+.modal-header {
+  border-bottom: 0 none;
+}
+
+.modal-footer {
+  border-top: 0 none;
 }
