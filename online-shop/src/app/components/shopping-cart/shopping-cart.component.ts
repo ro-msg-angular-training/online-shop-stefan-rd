@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductWithQuantity } from 'src/app/models/product-with-quantity';
 import { OrderService } from 'src/app/services/order.service';
+import { Router } from '@angular/router';
+import { Order } from 'src/app/models/order.model';
 
 @Component({
   selector: 'shopping-cart',
@@ -8,10 +10,12 @@ import { OrderService } from 'src/app/services/order.service';
   styleUrls: ['./shopping-cart.component.css'],
 })
 export class ShoppingCartComponent implements OnInit {
+  processingOrder: boolean = false;
   productsInCart: Array<ProductWithQuantity>;
   maxQuantityPerOrder: number;
+  lastOrder: Order;
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService, private router: Router) {}
 
   ngOnInit(): void {
     this.getProductsInCart();
@@ -31,5 +35,21 @@ export class ShoppingCartComponent implements OnInit {
     this.orderService
       .getProductsFromCart()
       .subscribe((products) => (this.productsInCart = products));
+  }
+
+  placeOrder(): void {
+    this.processingOrder = true;
+    this.orderService
+      .placeOrder()
+      .subscribe((order) => {
+        this.lastOrder = order;
+      })
+      .add(() => {
+        this.processingOrder = false;
+      });
+  }
+
+  updateCartQuantity(): void {
+    localStorage.setItem('itemsInCart', JSON.stringify(this.productsInCart));
   }
 }

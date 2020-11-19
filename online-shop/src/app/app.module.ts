@@ -11,6 +11,7 @@ import { ProductService } from './services/product.service';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { AddressPipe } from './pipes/address.pipe';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     ErrorPageComponent,
     ShoppingCartComponent,
     ErrorPageComponent,
+    AddressPipe,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [

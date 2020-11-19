@@ -7,6 +7,7 @@ export class ErrorService {
   public messages: string[] = [];
 
   public add(message: string) {
+    this.messages.pop();
     this.messages.push(message);
   }
 

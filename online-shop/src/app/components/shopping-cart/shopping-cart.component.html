@@ -22,7 +22,11 @@
           <td>{{ productInCart.product.category.name }}</td>
           <td>{{ productInCart.product.price }} RON</td>
           <td>
-            <select [(ngModel)]="productInCart.quantity">
+            <select
+              [ngModel]="+productInCart.quantity"
+              (ngModelChange)="productInCart.quantity = +$event"
+              (change)="updateCartQuantity()"
+            >
               <option
                 *ngFor="
                   let item of [].constructor(maxQuantityPerOrder);
@@ -42,4 +46,56 @@
       </tbody>
     </table>
   </div>
+  <div class="row mt-10">
+    <div class="col-sm-4 offset-8">
+      <button
+        *ngIf="processingOrder === false && productsInCart.length != 0"
+        class="btn btn-primary"
+        (click)="placeOrder()"
+      >
+        Checkout
+      </button>
+      <button
+        *ngIf="processingOrder === true"
+        disabled="true"
+        class="btn btn-primary"
+      >
+        Processing order...
+      </button>
+    </div>
+  </div>
+  <div
+    *ngIf="processingOrder === true"
+    class="d-flex justify-content-center mt-4"
+  >
+    <div class="spinner-border" style="width: 3rem; height: 3rem" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <div *ngIf="lastOrder != null">
+    <div class="row mt-3">
+      <div class="col-12 col-sm-2 field-name">Order Id</div>
+      <div class="col-12 col-sm-10">
+        {{ lastOrder._id }}
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12 col-sm-2 field-name">Timestamp</div>
+      <div class="col-12 col-sm-10">
+        {{ lastOrder.createdAt | date: "dd.MM.y H:mm" }}
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12 col-sm-2 field-name">Shipped From</div>
+      <div class="col-12 col-sm-10">
+        {{ lastOrder.shippedFrom.name }}
+        {{ lastOrder.shippedFrom.address | address }}
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12 col-sm-2 field-name">Address</div>
+      <div class="col-12 col-sm-10">{{ lastOrder.address | address }}</div>
+    </div>
+  </div>
+  <errors></errors>
 </div>
