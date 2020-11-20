@@ -6,11 +6,11 @@ export class AddressPipe implements PipeTransform {
   transform(address: Address): string {
     return (
       address.streetAddress +
-      ' ' +
+      ', ' +
       address.city +
-      ' ' +
+      ', ' +
       address.county +
-      ' ' +
+      ', ' +
       address.country
     );
   }

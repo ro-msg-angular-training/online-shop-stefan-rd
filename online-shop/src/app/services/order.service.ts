@@ -1,74 +1,73 @@
 import { Injectable } from '@angular/core';
 import { ProductWithQuantity } from '../models/product-with-quantity';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Product } from '../models/product.model';
-import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Order } from '../models/order.model';
 import { Address } from '../models/address.model';
+import { ENDPOINTS } from 'src/globals/endpoints';
+import { MAX_QUANTITY_PER_ORDER } from 'src/globals/constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
-  private apiBaseUrl = environment.apiUrl;
-  private ordersUrl = '/orders';
-  private productsInCart: Array<ProductWithQuantity> = [];
-  private maxQuantityPerOrder: number = 10;
+  constructor(private httpClient: HttpClient) {}
 
-  constructor(private httpClient: HttpClient) {
-    this.getCartFromLocalStorage();
-  }
-
-  public getProductsFromCart(): Observable<Array<ProductWithQuantity>> {
-    return of(this.productsInCart);
+  public getProductsFromCart(): Array<ProductWithQuantity> {
+    if (localStorage.getItem('itemsInCart') === null) {
+      localStorage.setItem('itemsInCart', JSON.stringify([]));
+      return [];
+    } else {
+      return JSON.parse(localStorage.getItem('itemsInCart'));
+    }
   }
 
   removeProductFromCart(id: number): void {
-    const index: number = this.productsInCart.findIndex(
+    const productsInCart = this.getProductsFromCart();
+    const index: number = productsInCart.findIndex(
       (productInCart) => productInCart.product._id == id
     );
     if (index > -1) {
-      this.productsInCart.splice(index, 1);
+      productsInCart.splice(index, 1);
     }
-    localStorage.setItem('itemsInCart', JSON.stringify(this.productsInCart));
+    localStorage.setItem('itemsInCart', JSON.stringify(productsInCart));
   }
 
   addProductToCart(product: Product): void {
-    const index: number = this.productsInCart.findIndex(
+    const productsInCart = this.getProductsFromCart();
+    const index: number = productsInCart.findIndex(
       (productInCart) => productInCart.product._id == product._id
     );
     if (index > -1) {
-      if (this.productsInCart[index].quantity < this.maxQuantityPerOrder) {
-        this.productsInCart[index].quantity =
-          +this.productsInCart[index].quantity + 1;
-        localStorage.setItem(
-          'itemsInCart',
-          JSON.stringify(this.productsInCart)
-        );
+      if (productsInCart[index].quantity < MAX_QUANTITY_PER_ORDER) {
+        productsInCart[index].quantity = +productsInCart[index].quantity + 1;
+        localStorage.setItem('itemsInCart', JSON.stringify(productsInCart));
       }
     } else {
-      this.productsInCart.push({ product: product, quantity: 1 });
-      localStorage.setItem('itemsInCart', JSON.stringify(this.productsInCart));
+      productsInCart.push({ product: product, quantity: 1 });
+      localStorage.setItem('itemsInCart', JSON.stringify(productsInCart));
     }
   }
 
   getProductQuantityInCart(id: number) {
-    const index: number = this.productsInCart.findIndex(
+    const productsInCart = this.getProductsFromCart();
+    const index: number = productsInCart.findIndex(
       (productInCart) => productInCart.product._id == id
     );
     if (index > -1) {
-      return this.productsInCart[index].quantity;
+      return productsInCart[index].quantity;
     } else {
       return 0;
     }
   }
 
   getMaxQuantityPerOrder(): number {
-    return this.maxQuantityPerOrder;
+    return MAX_QUANTITY_PER_ORDER;
   }
 
   placeOrder(): Observable<Order> {
+    const productsInCart = this.getProductsFromCart();
     const timestamp: Date = new Date();
     const address: Address = {
       country: 'Romania',
@@ -77,7 +76,7 @@ export class OrderService {
       streetAddress: '4 Strada Bucuresti',
     };
     const productIdsAndQuantities = {};
-    for (let productInCart of this.productsInCart) {
+    for (let productInCart of productsInCart) {
       productIdsAndQuantities[productInCart.product._id] =
         productInCart.quantity;
     }
@@ -87,16 +86,12 @@ export class OrderService {
       productIdsAndQuantities: productIdsAndQuantities,
     };
     return this.httpClient.post<Order>(
-      this.apiBaseUrl + this.ordersUrl,
+      ENDPOINTS.baseUrl + '/' + ENDPOINTS.orders,
       informationAboutOrder
     );
   }
 
-  getCartFromLocalStorage(): void {
-    if (localStorage.getItem('itemsInCart') === null) {
-      localStorage.setItem('itemsInCart', JSON.stringify([]));
-    } else {
-      this.productsInCart = JSON.parse(localStorage.getItem('itemsInCart'));
-    }
+  updateCartQuantity(productsInCart: ProductWithQuantity[]) {
+    localStorage.setItem('itemsInCart', JSON.stringify(productsInCart));
   }
 }

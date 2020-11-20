@@ -12,6 +12,7 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
 import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { AddressPipe } from './pipes/address.pipe';
+import { ProductEditComponent } from './components/product-edit/product-edit.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AddressPipe } from './pipes/address.pipe';
     ShoppingCartComponent,
     ErrorPageComponent,
     AddressPipe,
+    ProductEditComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [
