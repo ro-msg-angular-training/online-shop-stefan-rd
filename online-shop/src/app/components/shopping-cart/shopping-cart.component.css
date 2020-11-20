@@ -6,3 +6,13 @@
 button:active {
   transform: scale(0.95);
 }
+
+.custom-loading-spinner {
+  width: 3rem;
+  height: 3rem;
+}
+
+.clickable-product-name {
+  font-weight: 700;
+  color: black;
+}

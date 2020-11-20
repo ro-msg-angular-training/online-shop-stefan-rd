@@ -1,45 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductWithQuantity } from 'src/app/models/product-with-quantity';
 import { OrderService } from 'src/app/services/order.service';
 import { Router } from '@angular/router';
 import { Order } from 'src/app/models/order.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'shopping-cart',
   templateUrl: './shopping-cart.component.html',
   styleUrls: ['./shopping-cart.component.css'],
 })
-export class ShoppingCartComponent implements OnInit {
+export class ShoppingCartComponent implements OnInit, OnDestroy {
   processingOrder: boolean = false;
   productsInCart: Array<ProductWithQuantity>;
   maxQuantityPerOrder: number;
   lastOrder: Order;
+  placeOrderSubscription: Subscription;
 
   constructor(private orderService: OrderService, private router: Router) {}
 
   ngOnInit(): void {
     this.getProductsInCart();
-    console.log(this.productsInCart);
     this.getMaxQuantityPerOrder();
   }
+
+  ngOnDestroy(): void {
+    if (!!this.placeOrderSubscription) {
+      this.placeOrderSubscription.unsubscribe();
+    }
+  }
+
   getMaxQuantityPerOrder() {
     this.maxQuantityPerOrder = this.orderService.getMaxQuantityPerOrder();
   }
 
   onRemove(productWithQuantity: ProductWithQuantity): void {
-    console.log(productWithQuantity);
     this.orderService.removeProductFromCart(productWithQuantity.product._id);
+    this.getProductsInCart();
   }
 
   getProductsInCart(): void {
-    this.orderService
-      .getProductsFromCart()
-      .subscribe((products) => (this.productsInCart = products));
+    this.productsInCart = this.orderService.getProductsFromCart();
   }
 
   placeOrder(): void {
     this.processingOrder = true;
-    this.orderService
+    this.placeOrderSubscription = this.orderService
       .placeOrder()
       .subscribe((order) => {
         this.lastOrder = order;
@@ -50,6 +56,6 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   updateCartQuantity(): void {
-    localStorage.setItem('itemsInCart', JSON.stringify(this.productsInCart));
+    this.orderService.updateCartQuantity(this.productsInCart);
   }
 }

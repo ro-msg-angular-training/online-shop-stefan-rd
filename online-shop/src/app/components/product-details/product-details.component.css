@@ -18,3 +18,7 @@ button:active {
 .modal-footer {
   border-top: 0 none;
 }
+
+.description-text {
+  white-space: wrap;
+}
