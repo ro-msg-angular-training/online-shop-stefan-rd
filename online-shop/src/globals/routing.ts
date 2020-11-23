@@ -4,4 +4,5 @@ export const ROUTES = {
   productDetailsComponent: 'products/:id',
   shoppingCartComponent: 'cart',
   productEditComponent: 'products/edit/:id',
+  pageNotFoundComponent: '/404',
 };
