@@ -1,9 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { ProductService } from 'src/app/services/product.service';
 import { OrderService } from 'src/app/services/order.service';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { ROUTES } from 'src/globals/routing';
 
 @Component({
   selector: 'product-details',
@@ -12,27 +14,48 @@ import { OrderService } from 'src/app/services/order.service';
 })
 export class ProductDetailsComponent implements OnInit {
   product: Product;
+  getProductSubscription: Subscription;
+  deleteProductSubscription: Subscription;
 
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
-    private location: Location,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.getProduct();
   }
 
+  ngOnDestroy(): void {
+    if (!!this.deleteProductSubscription) {
+      this.deleteProductSubscription.unsubscribe();
+    }
+    if (!!this.getProductSubscription) {
+      this.getProductSubscription.unsubscribe();
+    }
+  }
+
   getProduct(): void {
     const id: number = +this.route.snapshot.paramMap.get('id');
-    this.productService.getProduct(id).subscribe((product) => {
-      this.product = product;
-    });
+    this.getProductSubscription = this.productService.getProduct(id).subscribe(
+      (product) => {
+        this.product = product;
+      },
+      () => {
+        this.router.navigate([ROUTES.pageNotFoundComponent], {
+          skipLocationChange: true,
+        });
+      }
+    );
   }
 
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['..'], {
+      relativeTo: this.route,
+      replaceUrl: true,
+    });
   }
 
   addToCart(): void {
@@ -47,11 +70,14 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   deleteProduct(): void {
-    this.productService
+    this.deleteProductSubscription = this.productService
       .deleteProduct(this.product._id)
       .subscribe((deletedProduct) => {
         console.log(deletedProduct);
-        this.location.back();
+        this.router.navigate(['..'], {
+          relativeTo: this.route,
+          replaceUrl: true,
+        });
       });
   }
 }
