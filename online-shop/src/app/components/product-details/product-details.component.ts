@@ -6,6 +6,7 @@ import { OrderService } from 'src/app/services/order.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { ROUTES } from 'src/globals/routing';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'product-details',
@@ -21,7 +22,8 @@ export class ProductDetailsComponent implements OnInit {
     private productService: ProductService,
     private route: ActivatedRoute,
     private orderService: OrderService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -78,6 +80,7 @@ export class ProductDetailsComponent implements OnInit {
           relativeTo: this.route,
           replaceUrl: true,
         });
+        this.toastr.success('The product was deleted successfully!', 'SUCCESS');
       });
   }
 }

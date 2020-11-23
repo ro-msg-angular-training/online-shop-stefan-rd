@@ -4,6 +4,8 @@ import { OrderService } from 'src/app/services/order.service';
 import { Router } from '@angular/router';
 import { Order } from 'src/app/models/order.model';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'shopping-cart',
@@ -17,7 +19,11 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
   lastOrder: Order;
   placeOrderSubscription: Subscription;
 
-  constructor(private orderService: OrderService, private router: Router) {}
+  constructor(
+    private orderService: OrderService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getProductsInCart();
@@ -47,9 +53,18 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     this.processingOrder = true;
     this.placeOrderSubscription = this.orderService
       .placeOrder()
-      .subscribe((order) => {
-        this.lastOrder = order;
-      })
+      .subscribe(
+        (order: Order) => {
+          this.lastOrder = order;
+          this.toastr.success(
+            'Order ' + order._id.toString() + ' was placed successfully!',
+            'SUCCESS'
+          );
+        },
+        (error: HttpErrorResponse) => {
+          this.toastr.error(error.error, 'ERROR');
+        }
+      )
       .add(() => {
         this.processingOrder = false;
       });
