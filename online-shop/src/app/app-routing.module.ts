@@ -5,6 +5,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { ProductEditComponent } from './components/product-edit/product-edit.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
+import { ProductSaveComponent } from './components/product-save/product-save.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
     redirectTo: ROUTES.productListComponent,
     pathMatch: 'full',
   },
+  { path: ROUTES.productSaveComponent, component: ProductSaveComponent },
   { path: ROUTES.productDetailsComponent, component: ProductDetailsComponent },
   { path: ROUTES.productEditComponent, component: ProductEditComponent },
   { path: '404', component: PageNotFoundComponent },

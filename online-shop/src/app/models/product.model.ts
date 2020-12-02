@@ -7,7 +7,7 @@ export interface Product {
   category: Category;
   price: number;
   description: string;
-  imageUrl: string;
-  supplier: Supplier;
+  imageUrl?: string;
+  supplier?: Supplier;
   weight: number;
 }

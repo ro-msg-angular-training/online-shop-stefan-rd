@@ -1,7 +1,7 @@
 <div *ngIf="currentProduct">
   <product-form
+    [disableId]="false"
     [product]="currentProduct"
-    [disableId]="true"
-    (changedProductEvent)="updateProduct($event)"
+    (changedProductEvent)="saveProduct($event)"
   ></product-form>
 </div>

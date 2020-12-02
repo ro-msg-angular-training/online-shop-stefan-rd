@@ -76,10 +76,7 @@ export class ProductDetailsComponent implements OnInit {
       .deleteProduct(this.product._id)
       .subscribe((deletedProduct) => {
         console.log(deletedProduct);
-        this.router.navigate(['..'], {
-          relativeTo: this.route,
-          replaceUrl: true,
-        });
+        this.goBack();
         this.toastr.success('The product was deleted successfully!', 'SUCCESS');
       });
   }

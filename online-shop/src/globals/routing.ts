@@ -4,5 +4,6 @@ export const ROUTES = {
   productDetailsComponent: 'products/:id',
   shoppingCartComponent: 'cart',
   productEditComponent: 'products/edit/:id',
+  productSaveComponent: 'products/new',
   pageNotFoundComponent: '/404',
 };
