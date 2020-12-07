@@ -27,7 +27,7 @@
         {{ product.description }}
       </div>
     </div>
-    <div class="row mt-3">
+    <div *ngIf="isCustomer()" class="row mt-3">
       <div class="col-sm-4 offset-8">
         <button
           class="btn btn-primary"
@@ -42,7 +42,7 @@
         </button>
       </div>
     </div>
-    <div class="row mt-3">
+    <div *ngIf="isAdmin()" class="row mt-3">
       <div class="col-sm-4 offset-8">
         <button
           class="btn btn-danger"

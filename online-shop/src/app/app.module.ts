@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -16,6 +16,10 @@ import { ProductEditComponent } from './components/product-edit/product-edit.com
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ProductFormComponent } from './components/product-form/product-form.component';
 import { ProductSaveComponent } from './components/product-save/product-save.component';
+import { LoginComponent } from './components/login/login.component';
+import { FakeBackendInterceptor } from './interceptors/fake-backend.interceptor';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { LogoutComponent } from './components/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +32,8 @@ import { ProductSaveComponent } from './components/product-save/product-save.com
     PageNotFoundComponent,
     ProductFormComponent,
     ProductSaveComponent,
+    LoginComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +44,15 @@ import { ProductSaveComponent } from './components/product-save/product-save.com
     ToastrModule.forRoot(),
     ReactiveFormsModule,
   ],
-  providers: [ProductService],
+  providers: [
+    ProductService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: FakeBackendInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

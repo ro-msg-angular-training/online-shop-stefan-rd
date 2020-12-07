@@ -7,13 +7,7 @@ import {
 } from '@angular/forms';
 import { Product } from 'src/app/models/product.model';
 import { Output, EventEmitter } from '@angular/core';
-
-interface ValidationError {
-  invalidValue: {
-    value: any;
-    errorMessage: string;
-  };
-}
+import { ValidationError } from 'src/app/utils/validation-error';
 
 @Component({
   selector: 'product-form',
@@ -23,7 +17,6 @@ interface ValidationError {
 export class ProductFormComponent implements OnInit {
   @Input() product: Product;
   @Input() disableId: boolean;
-  formValidationErrors: string = '';
   productForm: FormGroup;
   @Output() changedProductEvent = new EventEmitter<Product | undefined>();
 

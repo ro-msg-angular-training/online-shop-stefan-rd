@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { ROUTES } from 'src/globals/routing';
   templateUrl: './product-save.component.html',
   styleUrls: ['./product-save.component.css'],
 })
-export class ProductSaveComponent implements OnInit {
+export class ProductSaveComponent implements OnInit, OnDestroy {
   currentProduct: Product = {
     _id: undefined,
     category: {
@@ -33,6 +33,12 @@ export class ProductSaveComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    if (!!this.saveProductSubscription) {
+      this.saveProductSubscription.unsubscribe();
+    }
+  }
 
   goBack(): void {
     this.router.navigate(['..'], {

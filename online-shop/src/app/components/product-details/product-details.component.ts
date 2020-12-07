@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { ROUTES } from 'src/globals/routing';
 import { ToastrService } from 'ngx-toastr';
+import { Role } from 'src/app/models/role.model';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'product-details',
@@ -23,7 +25,8 @@ export class ProductDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private orderService: OrderService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authenticationService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
@@ -37,6 +40,16 @@ export class ProductDetailsComponent implements OnInit {
     if (!!this.getProductSubscription) {
       this.getProductSubscription.unsubscribe();
     }
+  }
+
+  isAdmin(): boolean {
+    const currentUserRole: Role = this.authenticationService.getCurrentUserRole();
+    return currentUserRole === 'Admin';
+  }
+
+  isCustomer(): boolean {
+    const currentUserRole: Role = this.authenticationService.getCurrentUserRole();
+    return currentUserRole === 'Customer';
   }
 
   getProduct(): void {
@@ -62,6 +75,7 @@ export class ProductDetailsComponent implements OnInit {
 
   addToCart(): void {
     this.orderService.addProductToCart(this.product);
+    this.toastr.success('The product was added to your cart!', 'SUCCESS');
   }
 
   checkProductQuantityInCart(): boolean {

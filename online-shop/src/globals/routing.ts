@@ -1,5 +1,7 @@
 export const ROUTES = {
   root: '',
+  loginComponent: 'login',
+  logoutComponent: 'logout',
   productListComponent: 'products',
   productDetailsComponent: 'products/:id',
   shoppingCartComponent: 'cart',

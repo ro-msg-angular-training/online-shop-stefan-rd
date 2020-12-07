@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './product-edit.component.html',
   styleUrls: ['./product-edit.component.css'],
 })
-export class ProductEditComponent implements OnInit {
+export class ProductEditComponent implements OnInit, OnDestroy {
   currentProduct: Product;
   getProductSubscription: Subscription;
   updateProductSubscription: Subscription;
@@ -26,6 +26,15 @@ export class ProductEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProduct();
+  }
+
+  ngOnDestroy(): void {
+    if (!!this.getProductSubscription) {
+      this.getProductSubscription.unsubscribe();
+    }
+    if (!!this.updateProductSubscription) {
+      this.updateProductSubscription.unsubscribe();
+    }
   }
 
   goBack(): void {

@@ -1,0 +1,74 @@
+<form [formGroup]="loginForm" (ngSubmit)="onLogin(); loginForm.reset()">
+  <div class="container mt-5">
+    <div class="row mt-3 justify-content-center">
+      <h2>Online Shop</h2>
+    </div>
+    <div class="row mt-3 justify-content-center">
+      <div class="col-auto field-name">Username</div>
+      <div class="col-auto">
+        <input
+          class="form-control form-control-sm"
+          type="text"
+          formControlName="username"
+        />
+      </div>
+    </div>
+    <div class="row mt-3 justify-content-center">
+      <div class="col-auto">
+        <div
+          *ngIf="
+            loginForm.controls['username'].invalid &&
+            (loginForm.controls['username'].dirty ||
+              loginForm.controls['username'].touched)
+          "
+        >
+          <div
+            class="error-message"
+            *ngFor="let item of loginForm.get('username').errors | keyvalue"
+          >
+            {{ loginForm.get("username").errors[item.key].errorMessage }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3 justify-content-center">
+      <div class="col-auto field-name">Password</div>
+      <div class="col-auto">
+        <input
+          class="form-control form-control-sm"
+          type="password"
+          formControlName="password"
+        />
+      </div>
+    </div>
+    <div class="row mt-3 justify-content-center">
+      <div class="col-auto">
+        <div
+          *ngIf="
+            loginForm.controls['password'].invalid &&
+            (loginForm.controls['password'].dirty ||
+              loginForm.controls['password'].touched)
+          "
+        >
+          <div
+            class="error-message"
+            *ngFor="let item of loginForm.get('password').errors | keyvalue"
+          >
+            {{ loginForm.get("password").errors[item.key].errorMessage }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3 justify-content-center">
+      <div class="col-3">
+        <button
+          type="submit"
+          class="btn btn-primary btn-block"
+          [disabled]="!loginForm.valid"
+        >
+          Login
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
